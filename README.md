@@ -1,5 +1,3 @@
-# Project_Pribadi
-
 # Financial Events Ledger
 
 Sistem pencatatan keuangan pribadi berbasis **event** (buku besar *append-only*) di atas **PostgreSQL**, dibangun untuk satu tujuan: menghasilkan **data yang rapi dan bisa dipercaya** supaya bisa dianalisis.
