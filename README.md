@@ -171,7 +171,7 @@ Aturan di sistem ini disebut **"UU Financial"** dan dapat direvisi bila syaratny
 - Expected Value
 - Expected Return
 - Expected Loss
-- Modal|
+- Modal |
 | **Pasal 5 ayat 1** | Setiap putusan/pengeluaran harus mendapatkan value setinggi, selama, dan sebanyak mungkin dengan biaya yang serendah mungkin, jika gagal mendapatkannya maka dapatkan value setinggi, selama, dan sebanyak mungkin dengan biaya serendah yang bisa didapatkan. dan harus realistis. |
 | **Pasal 6 ayat 1** | Setiap putusan/pengeluaran harus punya fungsi yang jelas. |
 | **Pasal 7 ayat 1** | Setiap putusan/pengeluaran harus bersifat produktif dan meningkatkan produktivitas benda, individu, system, dan institusi terkait finansial Archer. |
