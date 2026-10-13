@@ -37,7 +37,7 @@ Prinsip desain yang dipakai:
 - **Append-only.** Kejadian yang sudah tercatat tidak diubah. Kesalahan dikoreksi lewat kejadian baru (RSN lalu RVS).
 - **Semua kejadian = perpindahan nilai dari satu akun ke akun lain.** Pihak luar (misalnya SPBU atau warung) juga dicatat sebagai akun dengan pemilik masing-masing.
 - **`NULL` dihindari.** Angka `0` adalah nilai bisnis yang sah; kolom dibuat `NOT NULL` dan diisi `0`.
-- **Dua lapis pengaman.** Python (ETL) merapikan dan menghitung, database memvalidasi ulang lewat *constraint* dan *trigger*.
+- **Dua lapis pengaman.** Python (ETL) merapikan, membersihkan, memvalidasi, dan menghitung, database memvalidasi ulang lewat *constraint* dan *trigger*.
 - **Ledger hanya berisi kejadian.** Tabel ringkasan/snapshot dipisah dari buku besar.
 
 ---
@@ -46,14 +46,14 @@ Prinsip desain yang dipakai:
 
 ```mermaid
 flowchart LR
-    A[Input transaksi<br/>Excel / aplikasi] --> B[ETL Python<br/>jalan tiap 24 jam]
+    A[Input transaksi<br/>Excel / aplikasi] --> B[ETL Python<br/>jalan 1 kali dalam 24 jam]
     B -->|beri batch_id<br/>maks. 100 baris per batch<br/>urutkan per event_date| C[(PostgreSQL)]
     C -->|constraint + trigger<br/>validasi ulang| C
     C --> D[Analisis<br/>query / view / materialized view]
 ```
 
 1. Transaksi dicatat per kejadian (saat ini lewat Excel yang strukturnya mencerminkan tabel database).
-2. ETL Python berjalan terjadwal **setiap 24 jam**. Tugasnya memberi `batch_id` (satu batch menampung maksimal **100 baris**; sisanya masuk batch baru), mengurutkan baris berdasarkan `event_date`, lalu memasukkannya ke database.
+2. ETL Python berjalan terjadwal **setiap 1 kali dalam 24 jam**. Tugasnya memberi `batch_id` (satu batch menampung maksimal **100 baris**; sisanya masuk batch baru), mengurutkan baris berdasarkan `event_date`, lalu memasukkannya ke database.
 3. Database memeriksa ulang aturan (format ID, urutan tanggal, rumus, dan lain-lain).
 4. `saldo` dan `total_asset` tidak disimpan di ledger. Keduanya direncanakan menjadi *view* atau *materialized view*.
 
@@ -95,6 +95,7 @@ erDiagram
 ```
 
 > `rcm_detail` dan `pkt_detail` **sengaja tidak terhubung** ke `financial_events`. Keduanya adalah snapshot hasil hitungan Python, bukan kejadian.
+> `pkt_support` adalah tabel penyimpan nilai penghitungan, yang hasilnya ditaruh dalam `pkt_detail`..
 
 ### Kelompok Tabel
 
@@ -121,8 +122,8 @@ erDiagram
 |---|---|
 | `uuid` | Nomor urut internal (`bigserial`, bukan UUID sungguhan). |
 | `batch_id` | Label keranjang dari ETL Python (maks. 100 baris per batch). |
-| `entry_id` | "DNA penginput" saat data ditulis (`ETR-n`). |
 | `written_at` / `event_date` | Kapan data **ditulis** vs kapan kejadiannya **terjadi**. Selisihnya bisa dipakai untuk mendeteksi penginput yang suka menunda. |
+| `entry_id` | "DNA penginput" saat data ditulis (`ETR-n`). |
 | `event_class_id` | Kelas kejadian, unik di seluruh sistem (lihat tabel di bawah). |
 | `account_source` → `account_destination` | Arah perpindahan nilai. |
 | `actual_amount`, `actual_currency` | Nominal asli dan mata uangnya. |
