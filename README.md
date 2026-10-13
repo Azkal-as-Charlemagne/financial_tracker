@@ -153,6 +153,27 @@ Aturan di sistem ini disebut **"UU Financial"** dan dapat direvisi bila syaratny
 
 | Pasal | Isi |
 |---|---|
+|**Pasal 1 ayat 1**| Setiap pasal dan ayat dalam undang undang dan undang undang ini dapat, ditambah, disesuaikan, dihapus, dan direvisi dengan syarat harus berpegang teguh pada keberlangsungan jangka panjang dan ayat ayat dalam pasal 1. serta setiap individu, barang, ilmu, dan archer sendiri yang terikat dengang finansial archer harus mematuhi undang undang ini dengan tertib. |
+| **Pasal 2 ayat 1** | Setiap putusan/pengeluaran harus punya benefit jangka panjang. |
+| **Pasal 3 ayat 1** | Setiap Putusan/Pengeluaran harus bisa memenuhi kepuasan diri dengan baik dan sangat puas minimal kadar kepuasan di atas 75%. |
+| **Pasal 4 ayat 1** | Setiap putusan/pengeluaran harus sudah mempertimbangkan semua _resource_ dalam jangka panjang, jangka menengah, dan jangka pendek. Definisi _reosurce_ antara lain:
+- Uang
+- Waktu
+- Mental
+- Energy
+- Emosi
+- Kesehatan
+- Skill
+- Fokus
+- Asset
+- Resiko
+- Expected Value
+- Expected Return
+- Expected Loss
+- Modal|
+| **Pasal 5 ayat 1** | Setiap putusan/pengeluaran harus mendapatkan value setinggi, selama, dan sebanyak mungkin dengan biaya yang serendah mungkin, jika gagal mendapatkannya maka dapatkan value setinggi, selama, dan sebanyak mungkin dengan biaya serendah yang bisa didapatkan. dan harus realistis. |
+| **Pasal 6 ayat 1** | Setiap putusan/pengeluaran harus punya fungsi yang jelas. |
+| **Pasal 7 ayat 1** | Setiap putusan/pengeluaran harus bersifat produktif dan meningkatkan produktivitas benda, individu, system, dan institusi terkait finansial Archer. |
 | **Pasal 10 ayat 2** | Setiap transaksi ditulis **berurutan** sesuai kejadian aslinya. Bila penginput lupa urutan, tanggal, bulan, dan tahun tetap tidak boleh acak. Urutan dijaga **per penginput**; penginput berbeda boleh saling selang-seling. Tanggal yang sama diperbolehkan. |
 | **Pasal 10 ayat 3** | Pengendalian ketat atas entri data: mencegah penginput asal-asalan atau menunda, serta memudahkan *debugging* (misalnya bila penginput tidak bisa mengakses aplikasi). Penginput yang malas dapat mengirim lewat email terlebih dulu atau ditegur langsung. Inilah alasan adanya `entry_detail` ("DNA penginput"). |
 | **Pasal 10 ayat 4** | *[ISI: tambahkan bunyi pasal]* |
