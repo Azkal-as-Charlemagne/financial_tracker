@@ -130,8 +130,8 @@ constraint unique_event_type unique (general_event_type_id, specific_event_type_
 create table financial_events (
 uuid bigserial primary key,
 batch_id varchar(70) not null,
-entry_id varchar(70) not null check (entry_id ~ '^ETR-[0-9]+$'),
 written_at timestamp with time zone default clock_timestamp() not null check (written_at >= '2026-01-01 00:00:00+00'),
+entry_id varchar(70) not null check (entry_id ~ '^ETR-[0-9]+$'),
 event_date date not null check (event_date >= '2026-01-01'),
 event_class_id varchar(70) not null check (event_class_id ~ '^TRX-[0-9]+$' or event_class_id ~ '^RCC-[0-9]+$' or event_class_id ~ '^PKT-[0-9]+$' or event_class_id ~ '^RVS-[0-9]+$' or event_class_id ~ '^RSN-[0-9]+$'),
 event_type_id varchar(70) not null check (event_type_id ~ '^EVTP-[0-9]+$'),
@@ -335,8 +335,6 @@ real_return decimal(10,6) not null check (real_return between -9999.999999 AND 9
 real_return_cagr decimal(10,6) not null check (real_return_cagr between -9999.999999 AND 9999.999999),
 real_return_standard_deviation decimal(10,6) not null check (real_return_standard_deviation between -9999.999999 AND 9999.999999),
 
-constraint fk_pkt_detatil foreign key (event_class_id)
-	references financial_events(event_class_id),
 constraint fk_pkt_support_id foreign key(pkt_support_id)
 	references pkt_support(pkt_support_id),
 constraint check_calc_total_net_worth check (total_net_worth = net_worth_idr + net_worth_valas),
