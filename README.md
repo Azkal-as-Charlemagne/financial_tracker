@@ -157,21 +157,7 @@ Aturan di sistem ini disebut **"UU Financial"** dan dapat direvisi bila syaratny
 |**Pasal 1 ayat 1**| Setiap pasal dan ayat dalam undang undang dan undang undang ini dapat, ditambah, disesuaikan, dihapus, dan direvisi dengan syarat harus berpegang teguh pada keberlangsungan jangka panjang dan ayat ayat dalam pasal 1. serta setiap individu, barang, ilmu, dan archer sendiri yang terikat dengang finansial archer harus mematuhi undang undang ini dengan tertib. |
 | **Pasal 2 ayat 1** | Setiap putusan/pengeluaran harus punya benefit jangka panjang. |
 | **Pasal 3 ayat 1** | Setiap Putusan/Pengeluaran harus bisa memenuhi kepuasan diri dengan baik dan sangat puas minimal kadar kepuasan di atas 75%. |
-| **Pasal 4 ayat 1** | Setiap putusan/pengeluaran harus sudah mempertimbangkan semua _resource_ dalam jangka panjang, jangka menengah, dan jangka pendek. Definisi _reosurce_ antara lain:
-- Uang
-- Waktu
-- Mental
-- Energy
-- Emosi
-- Kesehatan
-- Skill
-- Fokus
-- Asset
-- Resiko
-- Expected Value
-- Expected Return
-- Expected Loss
-- Modal |
+| **Pasal 4 ayat 1** | Setiap putusan/pengeluaran harus sudah mempertimbangkan semua _resource_ dalam jangka panjang, jangka menengah, dan jangka pendek. Definisi _reosurce_ antara lain: Uang, Waktu, Mental, Energy, Emosi, Kesehatan, Skill, Fokus, Asset, Resiko, Expected Value, Expected Return, Expected Loss, Modal |
 | **Pasal 5 ayat 1** | Setiap putusan/pengeluaran harus mendapatkan value setinggi, selama, dan sebanyak mungkin dengan biaya yang serendah mungkin, jika gagal mendapatkannya maka dapatkan value setinggi, selama, dan sebanyak mungkin dengan biaya serendah yang bisa didapatkan. dan harus realistis. |
 | **Pasal 6 ayat 1** | Setiap putusan/pengeluaran harus punya fungsi yang jelas. |
 | **Pasal 7 ayat 1** | Setiap putusan/pengeluaran harus bersifat produktif dan meningkatkan produktivitas benda, individu, system, dan institusi terkait finansial Archer. |
