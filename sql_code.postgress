@@ -112,11 +112,11 @@ constraint unique_account_combination unique (account_currency, account_sequence
 
 create table specific_event_type_detail (
 specific_event_type_id varchar(70) primary key check (specific_event_type_id ~ '^SEVTP-[0-9]+$'),
-specific_event_type varchar(50));
+specific_event_type varchar(50) not null);
 
 create table general_event_type_detail (
 general_event_type_id varchar(70) primary  key check (general_event_type_id ~ '^GEVTP-[0-9]+$'),
-general_event_type varchar(50));
+general_event_type varchar(50) not null);
 
 create table event_type_detail (
 event_type_id varchar(70) primary key check (event_type_id ~ '^EVTP-[0-9]+$'),
@@ -128,7 +128,7 @@ constraint fk_specific_event_type_id foreign key (specific_event_type_id) refere
 constraint unique_event_type unique (general_event_type_id, specific_event_type_id));
 
 create table financial_events (
-uuid bigserial primary key,
+uuid uuid primary key,
 batch_id varchar(70) not null,
 written_at timestamp with time zone default clock_timestamp() not null check (written_at >= '2026-01-01 00:00:00+00'),
 entry_id varchar(70) not null check (entry_id ~ '^ETR-[0-9]+$'),
@@ -237,7 +237,7 @@ begin
 	
 	calc_saldo_growth := new.saldo - old_saldo;
 	if old_saldo = 0 then
-		calc_saldo_growth_percentage := sign(new.saldo - old_saldo)  * 100;
+		calc_saldo_growth_percentage := sign(new.saldo - old_saldo) * 100;
 	else 
 		calc_saldo_growth_percentage := (new.saldo - old_saldo)/old_saldo * 100;
 	end if;
@@ -298,7 +298,7 @@ pkt_support_id bigint primary key not null,
 year INT not null,
 amount_idr numeric(20,2) not null check (amount_idr >=0),
 kewajiban_idr numeric(20,2) not null check (kewajiban_idr >=0),
-return_idr decimal(10,6) null,
+return_idr decimal(10,6) not null,
 total_idr numeric(20,2) not null check(total_idr >=0),
 amount_usd numeric(20,2) not null check (amount_usd >=0),
 kewajiban_usd numeric(20,2) not null check (kewajiban_usd >=0),
