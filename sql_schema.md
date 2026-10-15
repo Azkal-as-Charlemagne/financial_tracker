@@ -1,8 +1,8 @@
-##Ledger Suci Financial Tracker Architecture
+## Ledger Suci Financial Tracker Architecture
 
 Arsitektur database dan pipeline data finansial enterprise-grade berbasis Double-Entry Bookkeeping (standar perbankan) dengan sistem Dual Database (OLTP dan OLAP) di PostgreSQL (Neon) serta integrasi LLM Agent bernama Archer.
 
---
+--- 
 
 # Overview Arsitektur dan Pipeline Flow
 
