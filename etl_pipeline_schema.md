@@ -13,6 +13,7 @@ Gausah disaring dulu, ambil mentahnya, nanti lo bisa kurasi sendiri mana yang ma
 * `status` (active, suspended, deactivated)
 * `created_at`, `updated_at`
 
+---
 
 * **`user_profiles`** (Detail personal, KYC ringan)
 * `profile_id` (PK)
@@ -20,6 +21,7 @@ Gausah disaring dulu, ambil mentahnya, nanti lo bisa kurasi sendiri mana yang ma
 * `first_name`, `middle_name`, `last_name`
 * `birth_date`, `phone_number`, `address`, `city`, `country`
 
+---
 
 * **`user_sessions`** (Tracking login & keamanan perangkat)
 * `session_id` (PK)
@@ -27,12 +29,11 @@ Gausah disaring dulu, ambil mentahnya, nanti lo bisa kurasi sendiri mana yang ma
 * `device_info`, `ip_address`
 * `refresh_token`, `expires_at`, `is_active`
 
+---
 
 * **`user_roles` & `permissions**` (RBAC enterprise)
 * `role_id`, `role_name` (Admin, Auditor, Regular User)
 * `user_role_mapping` (`user_id`, `role_id`)
-
-
 
 ---
 
@@ -42,6 +43,7 @@ Gausah disaring dulu, ambil mentahnya, nanti lo bisa kurasi sendiri mana yang ma
 * `institution_id` (PK)
 * `institution_name`, `institution_code`, `swift_code`
 
+---
 
 * **`accounts`** (Rekening/Dompet spesifik milik user)
 * `account_id` (PK)
@@ -53,6 +55,7 @@ Gausah disaring dulu, ambil mentahnya, nanti lo bisa kurasi sendiri mana yang ma
 * `current_balance` (Cached balance for performance)
 * `is_active`, `created_at`
 
+---
 
 * **`account_shares`** (Kalau akun/rekening bisa di-share ke partner/keluarga)
 * `share_id` (PK), `account_id` (FK), `shared_with_user_id` (FK)
@@ -71,10 +74,12 @@ Gausah disaring dulu, ambil mentahnya, nanti lo bisa kurasi sendiri mana yang ma
 * `category_name`, `category_type` (Income, Expense, Transfer)
 * `icon`, `color_code`
 
+---
 
 * **`tags`** (Label bebas untuk transaksi, misal #liburan, #kantor)
 * `tag_id` (PK), `user_id` (FK), `tag_name`
 
+---
 
 * **`transaction_tags`** (Many-to-many relasi transaksi ke tag)
 * `transaction_id` (FK), `tag_id` (FK)
@@ -101,17 +106,17 @@ Gausah disaring dulu, ambil mentahnya, nanti lo bisa kurasi sendiri mana yang ma
 * `notes` (Catatan bebas dari user)
 * `created_at`, `updated_at`
 
+---
 
 * **`transaction_splits`** (Kalau satu struk belanja punya banyak kategori berbeda, misal Alfamart: makanan + pulsa)
 * `split_id` (PK), `transaction_id` (FK)
 * `category_id` (FK), `amount`, `notes`
 
+---
 
 * **`transaction_attachments`** (Bukti foto struk / nota / file PDF)
 * `attachment_id` (PK), `transaction_id` (FK)
 * `file_url` (Path ke Cloudflare R2), `file_type`, `file_size`
-
-
 
 ---
 
@@ -122,12 +127,14 @@ Gausah disaring dulu, ambil mentahnya, nanti lo bisa kurasi sendiri mana yang ma
 * `amount_limit`, `period_start`, `period_end`
 * `alert_threshold_percentage` (Notifikasi kalau sudah terpakai 80%)
 
+---
 
 * **`recurring_transactions`** (Transaksi berulang otomatis, misal langganan Netflix bulanan)
 * `recurring_id` (PK), `user_id` (FK), `source_account_id` (FK)
 * `amount`, `category_id`, `frequency` (Daily, Weekly, Monthly, Yearly)
 * `next_run_date`, `status` (Active, Paused, Completed)
 
+---
 
 * **`audit_logs`** (Catatan sistem siapa yang akses/edit apa demi keamanan enterprise)
 * `log_id` (PK), `user_id` (FK)
@@ -135,6 +142,7 @@ Gausah disaring dulu, ambil mentahnya, nanti lo bisa kurasi sendiri mana yang ma
 * `table_affected`, `record_id`, `old_values` (JSON), `new_values` (JSON)
 * `ip_address`, `timestamp`
 
+---
 
 * **`notifications`** (Pusat notifikasi in-app / email)
 * `notification_id` (PK), `user_id` (FK)
