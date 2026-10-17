@@ -1,9 +1,3 @@
-Oke, bree! Kalau fokus murni ke **OLTP (Online Transaction Processing)** untuk sistem *financial tracker* kelas *mid-enterprise* yang kompleks, ketat, dan siap *scale-up* buat multi-user/multi-rekening tanpa batasan tabel, ini struktur tabel operasional harian yang lengkap beserta kolom-kolom utamanya.
-
-Gausah disaring dulu, ambil mentahnya, nanti lo bisa kurasi sendiri mana yang mau dipakai atau dibuang sesuai kebutuhan arsitektur lo!
-
----
-
 ### 1. KELOMPOK: Manajemen Pengguna & Otoritas (Identity & Access)
 
 * **`users`** (Identitas utama user)
@@ -152,4 +146,4 @@ Gausah disaring dulu, ambil mentahnya, nanti lo bisa kurasi sendiri mana yang ma
 
 ---
 
-Silakan dikunyah-kunyah dulu, bree. Ini skema standar matang buat aplikasi finansial skala menengah-atas yang nanganin multi-rekening, multi-currency, audit trail ketat, sampai fitur *budgeting* & *attachment*. Mana nih yang kira-kira bakal masuk list kurasi lo?
+di halaman aplikasi terdapat sebuah tombol yang mengantarkan user ke halaman daftar transaksi/event yang akan dimasukkan ke dalam database immutable. Hanya transaksi/event dengan umur lebih dari 3 hari yang diinsert ke database immutable. Selama data tersebut belum berumur lebih dari 3 hari, maka user bisa mengedit, menghapus atau mengubah data tersebut. Jika lebih dari 3 hari maka user harus membuat code RSN dan RVS. di halaman ini juga terdapat fitur search, di mana user bisa mencari data mana yang dia ingin ubah. User cukup mengetik deskripsi, nominal, atau apapun yang berhubungan dengan data yang user maksud.
