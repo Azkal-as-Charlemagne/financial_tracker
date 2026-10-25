@@ -80,65 +80,154 @@ constraint fk_organization_member foreign key (organization_id)
 constraint fk_user_member foreign key (user_id)
 	references user_profiles(user_id) on delete restrict);
 
-constraint chk_kolom_comb check (user_id is not null and organization_id is null and member_id is null)
-or (user_id is null and organization_id is not null and member_id is not null)
-
-create table event_platform (
+create table financial_platform (
 platform_id uuid primary key default uuidv7(),
-platform_type varchar(50) not null,
-pltform_name varchar(50) not null,
-created_at timestamp not null default clock_timestamp());
+platform_type varchar(25) not null,
+platform_name varchar(25) not null,
+is_custom boolean not null,
+creted_at timestamp not null default clock_timestamp(),
+updated_at timestamp null);
 
-create table owner_platform (
+create table owner_platforms (
 owner_id uuid primary key default uuidv7(),
-owner_type varchar(50) not null,
-owner_name varchar(50) not null,
-created_at timestamp not null default clock_timestamp());
+platform_id uuid not null,
+user_id uuid not null,
+owner_type varchar(30) not null,
+owner_name varchar(30) not null,
+created_at timestamp not null default clock_timestamp(),
+updated_at timestamp null,
+
+constraint fk_owner_platform foreign key (platform_id)
+	references event_platform(platform_id) on delete restrict,
+constraint fk_user_owner_identity foreign key (user_id)
+	references user_profiles(user_id) on delete restrict);
 
 create table financial_account (
 account_id uuid primary key default uuidv7(),
+account_name varchar(70) not null,
+account_type varchar(70) null,
 account_sequence smallint not null,
-account_name varchar(50) not null,
-account_type varchar(50) not null,
 currency varchar(5) not null,
-platform_id uuid not null,
 owner_id uuid not null,
+platform_id uuid not null,
 created_at timestamp not null default clock_timestamp(),
+updated_at timestamp null, -- update hanya di account_name dan account type saja
 
-constraint fk_account_platform (platform_id)
-	references event_platform(platform_id) on delete restrict,
-constraint fk_account_owner (owner_id)
-	references financial_owner(owner_id) on delete restrict,
-constraint uq_account_comb unique (account_sequence, currency, platform_id, owner_id));
+constraint fk_account_owner foreign key (owner_id)
+	references owner_platforms(owner_id) on delete restrict,
+constraint fk_account_platform foreign key (platform_id)
+	references financial_platform(platform_id) on delete restrict,
+constraint uq_account_comb unique (account_sequence, currency, owner_id, platform_id)),
 
-create table event_location (
+create table financial_location (
 location_id uuid primary key default uuidv7(),
-country varchar(40) not null,
-province varchar(40) not null,
-regency varchar(40) not null,
-district varchar(40) not null,
-created_at timestamp not null clock_timestamp(),
+country varchar(50) not null,
+province varchar(50) not null,
+regency varchar(50) not null,
+district varchar(50) not null,
 
 constraint uq_location_comb unique (country, province, regency, district));
 
+create table sub_category (
+s_category_id uuid primary key default uuidv7(),
+s_category_name varchar(50) not null,
+slug_s_category_name varchar(50 not null,)
+created_at timestamp not null default clock_timestamp(),
+updated_at timestamp null,
+
+constraint uq_slug_s_category unique (slug_s_category_name));
+
+create table main_category (
+m_category_id uuid primary key default uuidv7(),
+m_category_name varchar(50) not null,
+slug_m_category_name varchar(50) not null,
+created_at timestamp not null default clock_timestamp(),
+updated_at timestamp null,
+
+constraint uq_slug_m_category unique (slug_m_category_name));
+
+create table category (
+category_id uuid primary key default uuidv7(),
+m_category_id not null,
+s_category_id not null,
+created_at timestamp not null default clock_timestamp(),
+updated_at timestamp null,
+
+constraint uq_category_comb unique (m_category_id, s_category_id));
+
 create table payment_channel (
 p_channel_id uuid primary key default uuidv7(),
-channel_name varchar(50) not null,
-created_at timestamp not null clock_timestamp());
+p_channel_name varchar(50) not null,
+slug_p_channel_name varchar(50) not null,
+created_at timestamp not null default clock_timestamp(),
+updated_at timestamp null,
+
+constraint uq_slug_p_channel_name unique (slug_p_channel_name));
 
 create table payment_method (
 p_method_id uuid primary key default uuidv7(),
-method_name varchar(50) not null,
-creatd_at timestamp not null default clock_timestamp());
+p_method_name varchar(50) not null,
+slug_p_method_name varchar(50) not null,
+created_at timestamp not null default clock_timestamp(),
+updated_at timestamp null,
+
+constraint uq_slug_p_method_name unique (slug_p_method_name));
 
 create table financial_payment (
 payment_id uuid primary key default uuidv7(),
-p_chanel_id uuid not null,
-p_method_id uuid not null,
+p_channel_id uuid not null,
+p_method_name uuid not null,
 created_at timestamp not null default clock_timestamp(),
+updated_at timestamp null,
 
-constraint fk_payment_channel foreign key (p_channel_id)
+constraint fk_p_channel_id foreign key (p_channel_id)
 	references payment_channel(p_channel_id) on delete restrict,
-constraint fk_payment_method foreign key (p_method_id)
+constraint fk_p_method_name foreign key (p_method_name)
 	references payment_method(p_method_id) on delete restrict,
-constraint uq_payment_comb unique (p_channel_id, p_method_id));
+constraint uq_payment_comb unique (p_channel_id, p_channel_name));
+
+create table financial_events (
+financial_event_id uuid primary key default uuidv7(),
+user_id uuid null,
+organization_id uuid null,
+member_id uuid null,
+written_at timestamp not null default clock_timestamp(),
+event_date datetime not null,
+event_class varchar(10) not null,
+account_source uuid not null,
+account_destiantion uuid not null,
+payment_id uuid not null,
+category_id uuid not null,
+description varchar(300) null,
+location_id uuid not null,
+actual_currency varchar(5) not null,
+actual_amount numeric(30,10) not null,
+base_amount varchar(5) not null,
+exchange_rate numeric(30,10) not null,
+base_amount numeric(30,10) not null,
+file_type varchar(20) null,
+file_size varchar(20) null,
+file_url varchar(300) null
+
+constraint fk_user_financial foreign key (user_id)
+	references user_profiles(user_id) on delete restrict,
+constraint fk_organization_financial foreign key (organization_id)
+	references organizations(organization_id) on delete restrict,
+constraint fk_member_financial foreign key (member_id)
+	references organization_member(member_id) on delete restrict,
+constraint fk_account_source foreign key (account_source)
+	references financial_account(account_id) on delete restrict,
+constraint fk_account_destination foreign key (account_destination)
+	references financial_account(account_id) on delete restrict,
+constraint fk_financial_payment foreign key (payment_id)
+	references financial_payment(payment_id) on delete restrict,
+constraint fk_financial_category foreign key (category_id)
+	references financial_category(category_id) on delete restrict,
+constraint fk_financial_location foreign key (location_id)
+	references financial_location(location_id) on delete restrict,
+constraint chk_financial_identity check (user_id is not null and organization_id is null and member_id is null)
+	or (user_id id null and organization_id is not null and member_id is not null),
+constraint chk_actual_amount check (actual_amount >= 0),
+constraint chk_exchange_rate check (exchange_rate >= 0),
+constraint chk_calc_base_amount check (base_amount = actual_amount * exchange_rate),
+constraint chk_base_amount check (base_amount >= 0));
