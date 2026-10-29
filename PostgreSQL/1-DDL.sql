@@ -1,7 +1,7 @@
 create table personal_plans (
 p_plans_id uuid primary key default uuidv7(),
 plans_type varchar(20) not null,
-description text not null
+description text not null,
 created_at timestamptz not null default clock_timestamp(),
 updated_at timestamptz null);
 
@@ -37,12 +37,12 @@ updated_at timestamptz null,
 constraint fk_user_auth foreign key (user_auth_id)
 	references user_authentication(user_auth_id) on delete restrict,
 constraint fk_user_plans foreign key (p_plans_id)
-	references personal_plans(plans_id) on delete restrict,
+	references personal_plans(p_plans_id) on delete restrict,
 constraint chk_regex_username check (username ~ '^[A-Za-z0-9_.,-]+$'),
 constraint uq_username unique (username));
 
 create table accountability_plans (
-accountabilty_id uuid primary key default uuidv7(),
+accountability_id uuid primary key default uuidv7(),
 user_id uuid null,
 o_plans_id uuid not null,
 created_at timestamptz not null default clock_timestamp(),
@@ -72,7 +72,7 @@ member_id uuid primary key default uuidv7(),
 organization_id uuid not null,
 user_id uuid not null,
 member_role varchar(30) not null default 'Member',
-created_at timetamptz not null default clock_timestamp(),
+created_at timestamptz not null default clock_timestamp(),
 joined_at timestamp null,
 join_method varchar(30) not null,
 leave_at timestamp null,
@@ -148,7 +148,7 @@ updated_at timestamp null,
 
 constraint uq_slug_m_category unique (slug_m_category_name));
 
-create table category (
+create table categories (
 category_id uuid primary key default uuidv7(),
 m_category_id uuid not null,
 s_category_id uuid not null,
@@ -197,7 +197,7 @@ written_at timestamp not null default clock_timestamp(),
 event_date timestamp not null,
 event_class varchar(10) not null,
 account_source uuid not null,
-account_destiantion uuid not null,
+account_destination uuid not null,
 payment_id uuid not null,
 category_id uuid not null,
 description varchar(300) null,
@@ -209,7 +209,7 @@ exchange_rate numeric(30,10) not null,
 base_amount numeric(30,10) not null,
 file_type varchar(20) null,
 file_size varchar(20) null,
-file_url varchar(300) null
+file_url varchar(300) null,
 
 constraint fk_user_financial foreign key (user_id)
 	references user_profiles(user_id) on delete restrict,
@@ -224,11 +224,11 @@ constraint fk_account_destination foreign key (account_destination)
 constraint fk_financial_payment foreign key (payment_id)
 	references financial_payment(payment_id) on delete restrict,
 constraint fk_financial_category foreign key (category_id)
-	references financial_category(category_id) on delete restrict,
+	references categories(category_id) on delete restrict,
 constraint fk_financial_location foreign key (location_id)
 	references financial_location(location_id) on delete restrict,
-constraint chk_financial_identity check (user_id is not null and organization_id is null and member_id is null)
-	or (user_id is null and organization_id is not null and member_id is not null),
+constraint chk_financial_identity check ((user_id is not null and organization_id is null and member_id is null)
+	or (user_id is null and organization_id is not null and member_id is not null)),
 constraint chk_actual_amount check (actual_amount >= 0),
 constraint chk_exchange_rate check (exchange_rate >= 0),
 constraint chk_calc_base_amount check (base_amount = actual_amount * exchange_rate),
