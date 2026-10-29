@@ -155,6 +155,10 @@ s_category_id uuid not null,
 created_at timestamp not null default clock_timestamp(),
 updated_at timestamp null,
 
+constraint fk_m_category_id foreign key (m_category_id)
+	references main_category(m_category_id) on delete restrict,
+constraint fk_s_category_id foreign key (s_category_id)
+	references sub_category(s_category_id) on delete restrict,
 constraint uq_category_comb unique (m_category_id, s_category_id));
 
 create table payment_channel (
