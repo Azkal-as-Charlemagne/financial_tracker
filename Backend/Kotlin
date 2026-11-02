@@ -1,0 +1,12 @@
+package com.example.financial_tracker_backend
+
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import jakarta.persistence.*
+
+@SpringBootApplication
+class FinancialTrackerBackendApplication
+
+fun main(args: Array<String>) {
+    runApplication<FinancialTrackerBackendApplication>(*args)
+}
