@@ -157,7 +157,7 @@ updated_at timestamp null,
 
 constraint fk_m_category_id foreign key (m_category_id)
 	references main_category(m_category_id) on delete restrict,
-constraint fk_s_category_id foreign key (s_category_id)
+constraint fk_s_category_is foreign key (s_category_id)
 	references sub_category(s_category_id) on delete restrict,
 constraint uq_category_comb unique (m_category_id, s_category_id));
 
@@ -192,6 +192,30 @@ constraint fk_p_method_name foreign key (p_method_id)
 	references payment_method(p_method_id) on delete restrict,
 constraint uq_payment_comb unique (p_method_id, p_channel_id));
 
+create table liabilitys (
+liability_id uuid primary key default uuidv7(),
+user_id uuid not null,
+debitur varchar(50) not null,
+create_date timestamp not null,
+liability_amount numeric(30,10) not null,
+due_date timestamp not null,
+liability_interest decimal(10,6) null,
+
+constraint fk_user_liability foreign key (user_id)
+	references user_profiles(user_id));
+
+create table receivables (
+receivable_id uuid primary key default uuidv7(),
+user_id uuid not null,
+creditur varchar(50) not null,
+create_date timestamp not null,
+receivable_amount numeric(30,10) not null,
+due_date timestamp not null,
+receivable_interest decimal(10,6) null,
+
+constraint fk_user_receivable foreign key (receivable_id)
+	references user_profiles(user_id));
+
 create table financial_events (
 financial_event_id uuid primary key default uuidv7(),
 user_id uuid null,
@@ -214,6 +238,8 @@ base_amount numeric(30,10) not null,
 file_type varchar(20) null,
 file_size varchar(20) null,
 file_url varchar(300) null,
+liability_id uuid null,
+receivable_id uuid null,
 
 constraint fk_user_financial foreign key (user_id)
 	references user_profiles(user_id) on delete restrict,
@@ -231,6 +257,10 @@ constraint fk_financial_category foreign key (category_id)
 	references categories(category_id) on delete restrict,
 constraint fk_financial_location foreign key (location_id)
 	references financial_location(location_id) on delete restrict,
+constraint fk_financial_liability foreign key (liability_id)
+	references liabilitys(liability_id) on delete restrict,
+constraint fk_financial_receivable foreign key (receivable_id)
+	references receivables(receivable_id) on delete restrict,
 constraint chk_financial_identity check ((user_id is not null and organization_id is null and member_id is null)
 	or (user_id is null and organization_id is not null and member_id is not null)),
 constraint chk_actual_amount check (actual_amount >= 0),
