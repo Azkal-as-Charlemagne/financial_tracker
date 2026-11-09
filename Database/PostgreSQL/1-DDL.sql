@@ -80,7 +80,8 @@ leave_at timestamp null,
 constraint fk_organization_member foreign key (organization_id)
 	references organizations(organization_id) on delete restrict,
 constraint fk_user_member foreign key (user_id)
-	references user_profiles(user_id) on delete restrict);
+	references user_profiles(user_id) on delete restrict,
+constraint uq_organization_member unique (organization_id, user_id));
 
 create table financial_platform (
 platform_id uuid primary key default uuidv7(),
@@ -93,19 +94,31 @@ updated_at timestamp null);
 create table owner_platforms (
 owner_id uuid primary key default uuidv7(),
 platform_id uuid not null,
-user_id uuid not null,
+user_id uuid not null, -- pemilik baris
+organization_id uuid not null,
+member_id uuid not null,
 owner_type varchar(30) not null,
-owner_name varchar(30) not null,
+owner_name varchar(30) not null, -- pemilik akun
 created_at timestamp not null default clock_timestamp(),
 updated_at timestamp null,
 
 constraint fk_owner_platform foreign key (platform_id)
 	references financial_platform(platform_id) on delete restrict,
 constraint fk_user_owner_identity foreign key (user_id)
-	references user_profiles(user_id) on delete restrict);
+	references user_profiles(user_id) on delete restrict,
+constraint fk_owner_organization_account foreign key (organization_id)
+	references organizations(organization_id) on delete restrict,
+constraint fk_owner_member_account foreign key (member_id)
+	references organization_member(member_id) on delete restrict,
+constraint chk_owner_member_identity check ((user_id is not null and organization_id is null and member_id is null)
+	or (user_id is null and organization_id is not null and member_id is not null)),
+constraint uq_owner_member_organization unique (organization_id, member_id));
 
 create table financial_account (
 account_id uuid primary key default uuidv7(),
+user_id uuid not null,
+organization_id uuid not null,
+member_id uuid not null,
 account_name varchar(70) not null,
 account_type varchar(70) null,
 account_sequence smallint not null,
@@ -119,7 +132,14 @@ constraint fk_account_owner foreign key (owner_id)
 	references owner_platforms(owner_id) on delete restrict,
 constraint fk_account_platform foreign key (platform_id)
 	references financial_platform(platform_id) on delete restrict,
-constraint uq_account_comb unique (account_sequence, currency, owner_id, platform_id));
+constraint fk_organization_account foreign key (organization_id)
+	references organizations(organization_id) on delete restrict,
+constraint fk_member_account foreign key (member_id)
+	references organization_member(member_id) on delete restrict,
+constraint uq_account_comb unique (account_sequence, currency, owner_id, platform_id),
+constraint chk_personal_or_organization check ((user_id is not null and organization_id is null and member_id is null)
+	or (user_id is null and organization_id is not null and member_id is not null),
+constraint uq_account_member unique (organization_id, member_id)));
 
 create table financial_location (
 location_id uuid primary key default uuidv7(),
@@ -266,6 +286,7 @@ constraint fk_reference_correction foreign key (reference_correction_id)
 	references financial_events(financial_event_id) on delete restrict,
 constraint chk_financial_identity check ((user_id is not null and organization_id is null and member_id is null)
 	or (user_id is null and organization_id is not null and member_id is not null)),
+constraint uq_member_organization_identity unique (organization_id, member_id),
 constraint chk_financial_account_movement check (account_source <> account_destination),
 constraint chk_actual_amount check (actual_amount >= 0),
 constraint chk_exchange_rate check (exchange_rate >= 0),
