@@ -1,13 +1,3 @@
-create table subcriptions (
-subcriptions_id uuid primary key default uuidv7(),
-subscription_type varchar(20) not null,
-subscription_benefit text not null,
-capitalize_count smallint not null, -- capitalize sama kaya boost di discord, dan ini berfungsi mengukur di plan ini dapet berapa capitalize
-organization_count smallint not null, -- di setiap tier berapa tim yang boleh di buat user
-created_at timestamp not null default clock_timestamp(),
-
-constraint chk_subscription_type check (subscription_type in ('Free', 'Pro', 'Enterprises'));
-
 create table user_credentials (
 user_credential_id uuid primary key default uuidv7(),
 email varchar(256) not null unique,
@@ -20,9 +10,6 @@ constraint chk_email_lowercase check (email = lower(email)));
 create table user_profiles (
 user_id uuid primary key default uuidv7(),
 user_credential_id uuid not null,
-subscription_id uuid not null,
-plans_status varchar(20) not null,
-expired_at timestamp null,
 display_name varchar(100) not null,
 username varchar(50) not null,
 avatar_url varchar(300) null,
@@ -34,28 +21,15 @@ updated_at timestamptz null,
 
 constraint fk_user_credential foreign key (user_credential_id)
 	references user_credentials(user_credential_id) on delete restrict,
-constraint fk_user_subscription foreign key (subscription_id)
-	references subscriptions(subscription_id),
 constraint chk_regex_username check (username ~ '^[A-Za-z0-9_.-]+$'),
 constraint uq_username unique (username));
-
-create table capitalizes (
-capitalize_id uuid primary key default uuidv7(),
-user_id uuid not null,
-capitalize_source varchar(20) not null,
-status varchar(20) not null,
-expired_at timestamptz not null,
-created_at timestamptz not null default clock_timestamp(),
-updated_at timestamptz not null default clock_timestamp(),
-
-constraint fk_user_capitalize foreign key (user_id)
-	references user_profiles(user_id),
-constraint chk_capitalize_status check (status in('Active', 'Past_Due', 'Expired', 'Revoked')));
 
 create table organizations (
 organization_id uuid primary key default uuidv7(),
 organization_name varchar(40) not null,
 description varchar(250) null,
+base_currency char(5) not null,
+timezone varchar(50) not null,
 created_by uuid not null,
 created_at timestamptz not null default clock_timestamp(),
 deleted_at timestamptz null,
@@ -72,6 +46,7 @@ created_at timestamptz not null default clock_timestamp(),
 joined_at timestamptz null,
 join_method varchar(30) not null,
 left_at timestamptz null,
+deleted_at timestamptz null,
 
 constraint fk_organization_member foreign key (organization_id)
 	references organizations(organization_id) on delete restrict,
