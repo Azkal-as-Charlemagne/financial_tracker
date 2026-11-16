@@ -1,0 +1,140 @@
+:root {
+  /* ==========================================================================
+     ARCHER DESIGN SYSTEM TOKENS — SHARP CORPORATE + SUBTLE SPORTY
+     Default Theme: Light Mode
+     ========================================================================== */
+
+  /* Surface & Backgrounds */
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-sidebar: #0f2342;
+  --bg-sidebar-hover: #163058;
+  --bg-sidebar-active: #1e3f73;
+  --bg-muted: #f1f5f9;
+  --bg-subtle: #e2e8f0;
+  --bg-input: #ffffff;
+
+  /* Foreground / Typography Colors */
+  --fg-primary: #0f172a;
+  --fg-secondary: #334155;
+  --fg-muted: #64748b;
+  --fg-placeholder: #94a3b8;
+  --fg-on-primary: #ffffff;
+  --fg-sidebar: #e2e8f0;
+  --fg-sidebar-muted: #94a3b8;
+
+  /* Brand Identity Palette */
+  --color-primary: #0f294a;          /* Navy Blue - Core Identity */
+  --color-primary-hover: #163863;
+  --color-secondary: #059669;        /* Emerald Green - Growth & Positive */
+  --color-secondary-hover: #047857;
+  --color-accent: #1d4ed8;           /* Royal Blue - Interactive & Sporty Accent */
+  --color-accent-hover: #1e40af;
+
+  /* Semantic Status Colors */
+  --color-success: #059669;
+  --color-success-bg: #ecfdf5;
+  --color-success-border: #a7f3d0;
+
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-warning-border: #fde68a;
+
+  --color-danger: #dc2626;
+  --color-danger-bg: #fef2f2;
+  --color-danger-border: #fecaca;
+
+  --color-info: #2563eb;
+  --color-info-bg: #eff6ff;
+  --color-info-border: #bfdbfe;
+
+  /* Borders & Dividers */
+  --border-default: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --border-strong: #94a3b8;
+  --border-focus: #1d4ed8;
+
+  /* Data Visualization Palette */
+  --chart-navy: #0f294a;
+  --chart-royal: #2563eb;
+  --chart-emerald: #059669;
+  --chart-amber: #d97706;
+  --chart-crimson: #dc2626;
+  --chart-slate: #64748b;
+  --chart-cyan: #0891b2;
+  --chart-indigo: #4f46e5;
+
+  /* Sharp Corporate Geometry */
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+
+  /* Minimal Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.07), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06);
+}
+
+.dark {
+  /* Dark Mode — Separately Optimized Enterprise Financial Palette */
+  --bg-page: #070d19;
+  --bg-card: #0d1627;
+  --bg-elevated: #132038;
+  --bg-sidebar: #050a14;
+  --bg-sidebar-hover: #0d182e;
+  --bg-sidebar-active: #172a4a;
+  --bg-muted: #111c30;
+  --bg-subtle: #1e293b;
+  --bg-input: #0a1220;
+
+  --fg-primary: #f1f5f9;
+  --fg-secondary: #cbd5e1;
+  --fg-muted: #94a3b8;
+  --fg-placeholder: #475569;
+  --fg-on-primary: #ffffff;
+  --fg-sidebar: #f1f5f9;
+  --fg-sidebar-muted: #64748b;
+
+  --color-primary: #2563eb;
+  --color-primary-hover: #3b82f6;
+  --color-secondary: #10b981;
+  --color-secondary-hover: #34d399;
+  --color-accent: #3b82f6;
+  --color-accent-hover: #60a5fa;
+
+  --color-success: #10b981;
+  --color-success-bg: rgba(16, 185, 129, 0.12);
+  --color-success-border: rgba(16, 185, 129, 0.35);
+
+  --color-warning: #f59e0b;
+  --color-warning-bg: rgba(245, 158, 11, 0.12);
+  --color-warning-border: rgba(245, 158, 11, 0.35);
+
+  --color-danger: #ef4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.12);
+  --color-danger-border: rgba(239, 68, 68, 0.35);
+
+  --color-info: #3b82f6;
+  --color-info-bg: rgba(59, 130, 246, 0.12);
+  --color-info-border: rgba(59, 130, 246, 0.35);
+
+  --border-default: #1e293b;
+  --border-subtle: #152033;
+  --border-strong: #334155;
+  --border-focus: #3b82f6;
+
+  --chart-navy: #60a5fa;
+  --chart-royal: #3b82f6;
+  --chart-emerald: #10b981;
+  --chart-amber: #f59e0b;
+  --chart-crimson: #f87171;
+  --chart-slate: #94a3b8;
+  --chart-cyan: #22d3ee;
+  --chart-indigo: #818cf8;
+
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 6px 12px -2px rgba(0, 0, 0, 0.55);
+}
