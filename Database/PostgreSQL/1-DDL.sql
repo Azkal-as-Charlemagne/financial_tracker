@@ -1,6 +1,7 @@
 create table user_credentials (
 user_credential_id uuid primary key default uuidv7(),
 email varchar(256) not null unique,
+is_email_verified boolean not null, -- kalo terverifikasi TRUE, kalo ngga False 
 password_hash text not null,
 created_at timestamptz not null default clock_timestamp(),
 password_change_at timestamptz null,
@@ -12,7 +13,6 @@ user_id uuid primary key default uuidv7(),
 user_credential_id uuid not null,
 display_name varchar(100) not null,
 username varchar(50) not null,
-avatar_url varchar(300) null,
 biodata varchar(200) null,
 base_currency varchar(5) not null,
 time_zone varchar(40) not null,
@@ -28,8 +28,8 @@ create table organizations (
 organization_id uuid primary key default uuidv7(),
 organization_name varchar(40) not null,
 description varchar(250) null,
-base_currency char(5) not null,
-timezone varchar(50) not null,
+base_currency char(5) not null, -- organisasi bisa memilih base currency mereka sendiri, di luar akun personal
+timezone varchar(50) not null, -- organisasi bisa memilih timezone mereka sendiri, di luar akun personal
 created_by uuid not null,
 created_at timestamptz not null default clock_timestamp(),
 deleted_at timestamptz null,
@@ -68,6 +68,7 @@ platform_id uuid not null,
 user_id uuid null, -- pemilik baris
 organization_id uuid null,
 member_id uuid null,
+is_internal boolean not null, -- kalo eksternal false, kalo internal true
 owner_type varchar(30) not null,
 owner_name varchar(30) not null, -- pemilik akun
 created_at timestamptz not null default clock_timestamp(),
@@ -191,6 +192,8 @@ create_date timestamp not null,
 liability_amount numeric(30,10) not null,
 due_date timestamp not null,
 liability_interest decimal(10,6) null,
+description varchar(250) null,
+loan_agreement varchar(300) null,
 
 constraint fk_user_liability foreign key (user_id)
 	references user_profiles(user_id) on delete restrict);
@@ -203,6 +206,8 @@ create_date timestamp not null,
 receivable_amount numeric(30,10) not null,
 due_date timestamp not null,
 receivable_interest decimal(10,6) null,
+description varchar(250) null,
+loan_agreement varchar(300) null,
 
 constraint fk_user_receivable foreign key (user_id)
 	references user_profiles(user_id) on delete restrict);
@@ -231,7 +236,7 @@ file_size bigint null, -- dalam byte
 file_url varchar(300) null,
 liability_id uuid null,
 receivable_id uuid null,
-reference_correction_id uuid null,
+reference_correction_id uuid null, -- pengkoreksian di level database akan tercipta 2 baris, RSN baris yang class RSN harus ada isinya di kolom ini, lalu RVS baris yang RVS harus nunjuk ke baris RSN sebelunya
 
 constraint fk_user_financial foreign key (user_id)
 	references user_profiles(user_id) on delete restrict,
@@ -263,3 +268,8 @@ constraint chk_actual_amount check (actual_amount >= 0),
 constraint chk_exchange_rate check (exchange_rate > 0),
 constraint chk_calc_base_amount check (base_amount = actual_amount * exchange_rate),
 constraint chk_base_amount check (base_amount >= 0));
+
+-- commentar untuk public.financial_events.event_class
+-- TRX = event biasa RSN = transaksi penetralan khusus koreksi, RVS = memasukkan transaksi yang sebenarnya,
+-- RCC = penyeseuaian saldo manual akun, RCM = penyesuai asset investasi moneter user dan otomatis oleh system,
+-- PKT = pengukuran kesehatan keuangan user terhadap data makroekonomi tahunan
