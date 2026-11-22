@@ -217,7 +217,10 @@ financial_event_id uuid primary key default uuidv7(),
 user_id uuid null,
 organization_id uuid null,
 member_id uuid null,
+bussiness_code varchar(60) not null,
+written_by uuid null,
 written_at timestamptz not null default clock_timestamp(),
+event_type varchar(40) not null,
 event_date date not null,
 event_class varchar(10) not null,
 source_account_id uuid not null,
@@ -260,8 +263,10 @@ constraint fk_financial_receivable foreign key (receivable_id)
 	references receivables(receivable_id) on delete restrict,
 constraint fk_reference_correction foreign key (reference_correction_id)
 	references financial_events(financial_event_id) on delete restrict,
-constraint chk_financial_identity check ((user_id is not null and organization_id is null and member_id is null)
-	or (user_id is null and organization_id is not null and member_id is not null)),
+constraint fk_written_by foreign key (written_by)
+	references orgnaization_members(member_id) on delete restrict,
+constraint chk_financial_identity check ((user_id is not null and organization_id is null and member_id is null and written_by is null)
+	or (user_id is null and organization_id is not null and member_id is not null and written_by is not null)),
 constraint chk_financial_account_movement check (source_account_id <> destination_account_id),
 constraint chk_liability_or_receivable check (liability_id is null or receivable_id is null),
 constraint chk_actual_amount check (actual_amount >= 0),
